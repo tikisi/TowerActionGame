@@ -1,21 +1,22 @@
-﻿#include <Siv3D.hpp> // OpenSiv3D v0.4.2
+﻿#include <Siv3D.hpp>  // OpenSiv3D v0.4.2
+
 #include "Common.h"
+#include "Game.h"
 #include "Title.h"
 
-void Main()
-{
-	Scene::SetBackground(Color(0, 0, 0));
-	Scene::Resize(1024, 768);
+void Main() {
+  Scene::SetBackground(Color(0, 0, 0));
+  Scene::Resize(1024, 768);
 
-	App manager;
-	manager.add<Title>(State::Title);
-	
-	while (System::Update())
-	{
-		if (!manager.update()) {
-			break;
-		}
-	}
+  App manager;
+  manager.add<Title>(State::Title);
+  manager.add<Game>(State::Game);
+
+  while (System::Update()) {
+    if (!manager.update()) {
+      break;
+    }
+  }
 }
 
 //
