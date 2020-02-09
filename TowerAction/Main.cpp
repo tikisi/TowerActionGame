@@ -1,16 +1,19 @@
 ﻿#include <Siv3D.hpp>  // OpenSiv3D v0.4.2
+#include <iostream>
 
 #include "Common.h"
 #include "Game.h"
 #include "Title.h"
 
 void Main() {
+  std::cout << "Game Start ! " << std::endl;
   Scene::SetBackground(Color(0, 0, 0));
-  Scene::Resize(1024, 768);
+  Scene::Resize(800, 600);
+  Window::Resize(640, 480);
 
   App manager;
-  manager.add<Title>(State::Title);
-  manager.add<Game>(State::Game);
+  manager.add<Title>(SceneState::Title);
+  manager.add<Game>(SceneState::Game);
 
   while (System::Update()) {
     if (!manager.update()) {

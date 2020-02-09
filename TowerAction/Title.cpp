@@ -2,7 +2,7 @@
 
 void Title::update() {
   if (SimpleGUI::ButtonAt(U"Start", Scene::Center().moveBy(Point(0, 100)))) {
-    changeScene(State::Game);
+    changeScene(SceneState::Game);
   }
 }
 

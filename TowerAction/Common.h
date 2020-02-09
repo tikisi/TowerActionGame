@@ -5,9 +5,9 @@
  * @enum Enum
  * @brief ƒV[ƒ“‚Ìó‘Ô
  */
-enum class State {
+enum class SceneState {
 	Title,
 	Game
 };
 
-using App = SceneManager<State>;
+using App = SceneManager<SceneState>;

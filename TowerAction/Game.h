@@ -1,5 +1,6 @@
 #pragma once
 #include "Common.h"
+#include "Player.h"
 
 /**
  * @class Game
@@ -7,8 +8,10 @@
  */
 class Game : public App::Scene {
  private:
+  Player player;
+
  public:
-  Game(const InitData &init) : IScene(init){};
+  Game(const InitData &init) : IScene(init), player(Point(Scene::Center())) {};
 
   void update() override;
 
