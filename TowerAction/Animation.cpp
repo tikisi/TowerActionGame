@@ -19,7 +19,16 @@ void StandAnimation::update() {
 }
 
 void WalkAnimation::update() {
-  if (this->frameCounter++ == 15) {
+  if (this->frameCounter++ == 5) {
+    if (++(this->index) == this->size) {
+      this->index = 0;
+    }
+    frameCounter = 0;
+  }
+}
+
+void JumpAnimation::update() {
+  if (this->frameCounter++ == 9) {
     if (++(this->index) == this->size) {
       this->index = 0;
     }

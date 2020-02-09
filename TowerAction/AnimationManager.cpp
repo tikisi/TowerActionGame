@@ -20,18 +20,19 @@ TextureRegion AnimationManager<TextureRegion>::getTexture() const {
 
 void AnimationManager<TextureRegion>::changeAnimation(PlayerState nextState) {
   delete currentAnimation;
-
-  switch (nextState) {
+  this->state = nextState;
+  
+  switch (state) {
     case PlayerState::STAND:
-      this->state = PlayerState::STAND;
-      currentAnimation = new StandAnimation(textures[static_cast<size_t>(nextState)].size());
-
+      currentAnimation = new StandAnimation(textures[static_cast<size_t>(state)].size());
+      break;
     case PlayerState::Walk:
-      this->state = PlayerState::Walk;
-      currentAnimation = new WalkAnimation(textures[static_cast<size_t>(nextState)].size());
+      currentAnimation = new WalkAnimation(textures[static_cast<size_t>(state)].size());
+      break;
+    case PlayerState::JUMP:
+      currentAnimation = new WalkAnimation(textures[static_cast<size_t>(state)].size());
+      break;
   }
-
-  currentAnimation->update();
 }
 
 void AnimationManager<TextureRegion>::loadAnimation(FilePath path) {

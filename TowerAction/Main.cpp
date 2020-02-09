@@ -9,13 +9,19 @@ void Main() {
   std::cout << "Game Start ! " << std::endl;
   Scene::SetBackground(Color(0, 0, 0));
   Scene::Resize(800, 600);
-  Window::Resize(640, 480);
+  Window::Resize(640, 480, WindowResizeOption::KeepSceneSize);
 
   App manager;
   manager.add<Title>(SceneState::Title);
   manager.add<Game>(SceneState::Game);
 
   while (System::Update()) {
+    if(KeyA.down()) {
+      Window::Resize(800, 600, WindowResizeOption::KeepSceneSize);
+    }
+    if(KeyB.down()) {
+      Window::Resize(640, 480, WindowResizeOption::KeepSceneSize);
+    }
     if (!manager.update()) {
       break;
     }

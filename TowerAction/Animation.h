@@ -34,3 +34,13 @@ class WalkAnimation : public Animation {
 
   void update() override;
 };
+
+
+class JumpAnimation : public Animation {
+ private:
+ public:
+  JumpAnimation(size_t size) : Animation(size) {};
+
+  void update() override;
+};
+
