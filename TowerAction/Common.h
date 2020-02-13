@@ -1,10 +1,9 @@
 #pragma once
 #include <Siv3D.hpp>
 
-/**
- * @enum Enum
- * @brief シーンの状態
- */
+/// <summary>
+/// シーンの状態
+/// </summary>
 enum class SceneState {
 	Title,
 	Game

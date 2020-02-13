@@ -1,12 +1,14 @@
 #pragma once
 #include <Siv3D.hpp>
 
-
+/// <summary>
+/// アニメーションの基底クラス
+/// </summary>
 class Animation {
  protected:
-  const size_t size;
-  size_t index;
-  int frameCounter;
+  const size_t size; 
+  size_t index; 
+  int frameCounter; 
 
  public:
   Animation(size_t size) : size(size) { this->initialize();}

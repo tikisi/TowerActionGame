@@ -1,12 +1,10 @@
 #pragma once
 #include <Siv3D.hpp>
-
 #include "AnimationManager.h"
 
-/**
- * @class Player
- * プレイヤークラス
- */
+/// <summary>
+/// プレイヤークラス
+/// </summary>
 class Player {
   enum class Direction { Right, Left };
 
@@ -14,7 +12,7 @@ class Player {
   Point textureSize;
   AnimationManager<TextureRegion> animationManager;
 
-  //------キャラの情報---------
+  // ----キャラの状態-------
   Vec2 position;
   PlayerState state;
   Direction direction;
@@ -30,9 +28,7 @@ class Player {
     this->direction = Direction::Right;
     this->jumpCounter = 0;
 
-    this->speed0 = -6.0f;
-    this->gravity = 0.2;
-    this->speed = speed0;
+    this->speedY = speed0;
   }
 
   void upate();
@@ -41,9 +37,9 @@ class Player {
 
   // jump用変数
  private:
-  float speed;
-  float gravity;
-  float speed0;
+  float speedY;
+  inline constexpr static float gravity = 0.2f;
+  inline constexpr static float speed0 = -6.0f;
   int jumpCounter;
   bool jump();
 };

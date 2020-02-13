@@ -1,4 +1,5 @@
 #include "AnimationManager.h"
+#include<Windows.h>
 
 template <class T>
 void AnimationManager<T>::update() {
@@ -18,6 +19,10 @@ TextureRegion AnimationManager<TextureRegion>::getTexture() const {
   return textures[static_cast<size_t>(state)][currentAnimation->getIndex()];
 }
 
+/// <summary>
+/// アニメーションの切り替え
+/// </summary>
+/// <param name="nextState">次のキャラクターの状態</param>
 void AnimationManager<TextureRegion>::changeAnimation(PlayerState nextState) {
   delete currentAnimation;
   this->state = nextState;
@@ -30,18 +35,24 @@ void AnimationManager<TextureRegion>::changeAnimation(PlayerState nextState) {
       currentAnimation = new WalkAnimation(textures[static_cast<size_t>(state)].size());
       break;
     case PlayerState::JUMP:
-      currentAnimation = new WalkAnimation(textures[static_cast<size_t>(state)].size());
+      currentAnimation = new JumpAnimation(textures[static_cast<size_t>(state)].size());
       break;
   }
 }
 
-void AnimationManager<TextureRegion>::loadAnimation(FilePath path) {
+/// <summary>
+/// ファイルからアニメーションを読み込む
+/// </summary>
+/// <param name="path">ファイルパス</param>
+void AnimationManager<TextureRegion>::loadAnimation(const FilePath &path) {
+  // 定数
+  constexpr std::array<int, 4> eachAnimNum = {3, 4, 4, 7};
+  constexpr Point textureSize(64, 64);
+
   Texture texture(path);
-  Point textureSize = Point(64, 64);
-  int eachAnimNum[4] = {3, 4, 4, 7};
 
   if (!texture) {
-    std::cerr << "Can't load texture :" << path << std::endl;
+    OutputDebugString((LPCWSTR)"Can't load chara texture");
     exit(1);
   }
 

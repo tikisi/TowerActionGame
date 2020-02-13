@@ -1,4 +1,5 @@
-﻿#include <Siv3D.hpp>  // OpenSiv3D v0.4.2
+﻿#include <HamFramework.hpp>
+#include <Siv3D.hpp>  // OpenSiv3D v0.4.2
 #include <iostream>
 
 #include "Common.h"
@@ -16,12 +17,6 @@ void Main() {
   manager.add<Game>(SceneState::Game);
 
   while (System::Update()) {
-    if(KeyA.down()) {
-      Window::Resize(800, 600, WindowResizeOption::KeepSceneSize);
-    }
-    if(KeyB.down()) {
-      Window::Resize(640, 480, WindowResizeOption::KeepSceneSize);
-    }
     if (!manager.update()) {
       break;
     }

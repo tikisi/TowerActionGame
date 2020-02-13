@@ -1,10 +1,15 @@
 #include "Animation.h"
+#include <string>
 
 void Animation::initialize() {
   this->frameCounter = 0;
   this->index = 0;
 }
 
+/// <summary>
+/// 現在のアニメーションのインデックスを取得
+/// </summary>
+/// <returns>index</returns>
 size_t Animation::getIndex() const {
   return this->index;
 }
@@ -28,7 +33,7 @@ void WalkAnimation::update() {
 }
 
 void JumpAnimation::update() {
-  if (this->frameCounter++ == 9) {
+  if (this->frameCounter++ == 8) {
     if (++(this->index) == this->size) {
       this->index = 0;
     }

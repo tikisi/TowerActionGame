@@ -39,7 +39,7 @@ void Player::upate() {
     nextState = PlayerState::STAND;
   }
   // spaceキー
-  if (state != PlayerState::JUMP && KeySpace.down()) {
+  if (state != PlayerState::JUMP && KeyZ.down()) {
     nextState = PlayerState::JUMP;
   }
 
@@ -48,6 +48,11 @@ void Player::upate() {
     state = nextState;
     animationManager.changeAnimation(state);
   }
+
+  
+  // 重力処理
+  //speedY
+
 
   animationManager.update();
 
@@ -67,19 +72,18 @@ void Player::draw() const {
 
 bool Player::jump() {
   if (jumpCounter == 0) {
-    this->speed = speed0;
-  } else if (/*地面との当たり判定*/ Scene::CenterF().y <= position.y ||
-             jumpCounter == 60) {
+    this->speedY = speed0;
+  } else if (/*地面との当たり判定*/ Scene::CenterF().y  <= position.y || jumpCounter == 60) {
     this->jumpCounter = 0;
     return false;
   }
 
-  if (!KeySpace.pressed() && speed < 0) {
-    this->speed *= 0.9f;
+  if (!KeyZ.pressed() && speedY < 0) {
+    this->speedY *= 0.9f;
   }
 
-  this->speed += gravity;
-  this->position.y += speed;
+  this->speedY += gravity;
+  this->position.y += speedY;
 
   jumpCounter++;
   return true;

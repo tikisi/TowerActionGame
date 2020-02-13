@@ -2,10 +2,9 @@
 #include "Common.h"
 #include "Player.h"
 
-/**
- * @class Game
- * ƒQ[ƒ€‰æ–Ê
- */
+/// <summary>
+/// ƒQ[ƒ€‰æ–Ê
+/// </summary>
 class Game : public App::Scene {
  private:
   Player player;
