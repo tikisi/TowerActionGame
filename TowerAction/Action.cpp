@@ -1,5 +1,4 @@
 #include "Action.h"
-
 #include <string>
 
 void Action::initialize() {
@@ -24,7 +23,7 @@ Direction Action::getDir() const { return this->dir; }
 
 void StandAction::update() {
   // ó‘Ô‘JˆÚ
-  if (KeyZ.pressed()) {
+  if (KeyZ.down()) {
     this->changer->changeAction(ActionState::JUMP);
   }
   if (KeyRight.pressed() && !KeyLeft.pressed()) {
@@ -58,7 +57,7 @@ WalkAction::WalkAction(ActionChanger* changer, size_t size, Direction dir)
 
 void WalkAction::update() {
   // ‘JˆÚ
-  if (KeyZ.pressed()) {
+  if (KeyZ.down()) {
     this->changer->changeAction(ActionState::JUMP);
   }
   if ((KeyRight.pressed() && KeyLeft.pressed()) ||

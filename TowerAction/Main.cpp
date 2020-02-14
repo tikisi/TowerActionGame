@@ -9,8 +9,12 @@
 void Main() {
   std::cout << "Game Start ! " << std::endl;
   Scene::SetBackground(Color(0, 0, 0));
-  Scene::Resize(800, 600);
-  Window::Resize(640, 480, WindowResizeOption::KeepSceneSize);
+  // Scene::Resize(800, 600);
+  Scene::Resize(1280, 720);
+  //Window::Resize(854, 480, WindowResizeOption::KeepSceneSize);
+  Window::Resize(1280, 720, WindowResizeOption::KeepSceneSize);
+ // Window::Resize(1920, 1080, WindowResizeOption::KeepSceneSize);
+  //Window::Resize(640, 480, WindowResizeOption::KeepSceneSize);
 
   App manager;
   manager.add<Title>(SceneState::Title);
