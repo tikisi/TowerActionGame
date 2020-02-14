@@ -24,13 +24,20 @@ Direction Action::getDir() const { return this->dir; }
 
 void StandAction::update() {
   // 状態遷移
-  if (KeyRight.pressed()) {
+  if (KeyZ.pressed()) {
+    this->changer->changeAction(ActionState::JUMP);
+  }
+  if (KeyRight.pressed() && !KeyLeft.pressed()) {
     this->dir = Direction::Right;
     changer->changeAction(ActionState::Walk);
-  } else if (KeyLeft.pressed()) {
+    return;
+  }
+  if (!KeyRight.pressed() && KeyLeft.pressed()) {
     this->dir = Direction::Left;
     changer->changeAction(ActionState::Walk);
+    return;
   }
+
   // アニメーション
   if (this->frameCounter++ == 20) {
     if (++(this->index) == this->size) {
@@ -40,50 +47,32 @@ void StandAction::update() {
   }
 }
 
+WalkAction::WalkAction(ActionChanger* changer, size_t size, Direction dir)
+    : Action(changer, size, dir) {
+  if (dir == Direction::Right) {
+    this->accelVariation.x = 1.0f;
+  } else {
+    this->accelVariation.x = -1.0f;
+  }
+}
+
 void WalkAction::update() {
-  // 初期化
-  accelVariation.x = 0.0f;
-
-  // 状態遷移
-  if (KeyZ.down()) {
-    changer->changeAction(ActionState::JUMP);
-    return;
+  // 遷移
+  if (KeyZ.pressed()) {
+    this->changer->changeAction(ActionState::JUMP);
   }
-  // キーを離したとき
-  if (KeyRight.up()) {
+  if ((KeyRight.pressed() && KeyLeft.pressed()) ||
+      (!KeyRight.pressed() && !KeyLeft.pressed())) {
     changer->changeAction(ActionState::STAND);
-    this->accelVariation.x = -3.0f;
     return;
-  } else if (KeyLeft.up()) {
-    changer->changeAction(ActionState::STAND);
-    this->accelVariation.x = 3.0f;
-    return;
-  }
-  // キーを同時押ししたとき
-  if ((KeyRight + KeyLeft).pressed()) {
-    changer->changeAction(ActionState::STAND);
-    // 方向を反転
-    dir = static_cast<Direction>(!bool(dir));
-    // 座標移動
-    frameCounter = 0;
-  }
-
-  // 移動
-  if (frameCounter == 0) {
-    if (dir == Direction::Right) {
-      this->accelVariation.x = 3.0f;
-    } else {
-      this->accelVariation.x = -3.0f;
-    }
-    frameCounter++;
   }
 
   // アニメーション
-  if (this->frameCounter++ == 6) {
+  if (this->frameCounter++ == 5) {
     if (++(this->index) == this->size) {
       this->index = 0;
     }
-    frameCounter = 1;
+    frameCounter = 0;
   }
 }
 
@@ -95,28 +84,30 @@ void JumpAction::update() {
 
   // 移動
   if (frameCounter == 0) {
-    this->accelVariation.y = -6.0f;  // 初速
+    this->accelVariation.y = -20.0f;  // 初速
+    this->frameCounter++;
   } else if (frameCounter < 30 && !KeyZ.pressed()) {
     this->accelVariation.y = 0.1;  // 減速
   } else {
     this->accelVariation.y = 0.0f;  //通常
   }
-  if (KeyRight.pressed()) {
+
+  if ((KeyRight.pressed() && KeyLeft.pressed()) ||
+      (!KeyRight.pressed() && !KeyLeft.pressed())) {
+    accelVariation.x = 0.0f;
+  } else if (KeyRight.pressed()) {
     this->dir = Direction::Right;
-    accelVariation.x = 3.0f;
-  }
-  if (KeyLeft.pressed()) {
+    accelVariation.x = 1.0f;
+  } else if (KeyLeft.pressed()) {
     this->dir = Direction::Left;
-    accelVariation.x = -3.0f;
+    accelVariation.x = -1.0f;
   }
 
   // アニメーション
-  if (this->frameCounter++ == 8) {
-    if (this->index != this->size) {
-      index++;
+  if (this->frameCounter++ == 9) {
+    if (++(this->index) == this->size) {
+      index-=2;
     }
-    frameCounter = 0;
+    frameCounter = 1;
   }
-
-  frameCounter++;
 }

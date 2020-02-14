@@ -2,16 +2,22 @@
 
 void Player::upate() {
   this->actionManager.update();
-  
-  // •¨—ˆ—
-    // d—Í‚ð‚©‚¯‚é
-  //this->physics.accel.y = this->gravity;
-    // “–‚½‚è”»’è -> ƒV[ƒ“Ø‚è‘Ö‚¦
-  // this->actionManager.changeAnimation();
+  ClearPrint();
+  Print << static_cast<int>(actionManager.getState());
   
   this->physics.accel = actionManager.getAccel();
 
   this->physics.update();
+
+  // °‚Æ‚Ì“–‚½‚è”»’è
+  if (this->physics.pos.y > Scene::CenterF().y - 1) {
+    this->physics.pos.y = Scene::CenterF().y;
+    this->physics.speed.y = 0;
+    if (this->actionManager.getState() == ActionState::JUMP) {
+      this->actionManager.changeAction(ActionState::STAND);
+    }
+  }
+
 }
 
 void Player::draw() const {

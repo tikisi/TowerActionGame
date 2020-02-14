@@ -40,9 +40,9 @@ void ActionManager<TextureRegion>::loadAnimation(const FilePath &path) {
 template <class T>
 void ActionManager<T>::update() {
   currentAction->update();
-  this->accel += currentAction->getAccel();
 
   if (state != nextState) {
+    Direction dir = this->currentAction->getDir();
     delete currentAction;
     this->state = nextState;
 
@@ -63,7 +63,6 @@ void ActionManager<T>::update() {
 
     // 新しい状態のupdate呼び出し
     currentAction->update();
-    this->accel += currentAction->getAccel();
   }
 }
 
@@ -79,7 +78,7 @@ Vec2 ActionManager<T>::getAccel() const {
 
 template <class T>
 Direction ActionManager<T>::getDir() const {
-  return this->dir = this->currentAction->getDir();
+  return this->currentAction->getDir();
 }
 
 template <class T>
@@ -88,32 +87,35 @@ ActionState ActionManager<T>::getState() const {
 }
 
 void ActionManager<TextureRegion>::update() {
-  if (state != nextState) {
-    this->dir = currentAction->getDir();
-    delete currentAction;
-    this->state = nextState;
+    currentAction->update();
 
-    switch (state) {
-      case ActionState::STAND:
-        currentAction = new StandAction(
-            this, textures[static_cast<size_t>(state)].size(), dir);
-        break;
-      case ActionState::Walk:
-        currentAction = new WalkAction(
-            this, textures[static_cast<size_t>(state)].size(), dir);
-        break;
-      case ActionState::JUMP:
-        currentAction = new JumpAction(
-            this, textures[static_cast<size_t>(state)].size(), dir);
-        break;
+    if (state != nextState) {
+        Direction dir = this->currentAction->getDir();
+        delete currentAction;
+        this->state = nextState;
+
+        switch (state) {
+        case ActionState::STAND:
+            currentAction = new StandAction(
+                this, textures[static_cast<size_t>(state)].size(), dir);
+            break;
+        case ActionState::Walk:
+            currentAction = new WalkAction(
+                this, textures[static_cast<size_t>(state)].size(), dir);
+            break;
+        case ActionState::JUMP:
+            currentAction = new JumpAction(
+                this, textures[static_cast<size_t>(state)].size(), dir);
+            break;
+        }
+
+        // 新しい状態のupdate呼び出し
+        currentAction->update();
     }
-  }
-
-  currentAction->update();
 }
 
 TextureRegion ActionManager<TextureRegion>::getTexture() const {
-  return textures[static_cast<size_t>(state)][currentAction->getIndex()];
+  return this->textures[static_cast<size_t>(state)][currentAction->getIndex()];
 }
 
 Vec2 ActionManager<TextureRegion>::getAccel() const {
@@ -121,7 +123,7 @@ Vec2 ActionManager<TextureRegion>::getAccel() const {
 }
 
 Direction ActionManager<TextureRegion>::getDir() const {
-  return currentAction->getDir();
+  return this->currentAction->getDir();
 }
 
 ActionState ActionManager<TextureRegion>::getState() const {

@@ -52,7 +52,7 @@ class StandAction : public Action {
 class WalkAction : public Action {
  private:
  public:
-  WalkAction(ActionChanger *changer, size_t size, Direction dir) : Action(changer, size, dir){};
+  WalkAction(ActionChanger *changer, size_t size, Direction dir);
 
   void update() override;
 };

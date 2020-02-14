@@ -13,8 +13,6 @@ class ActionManager : public ActionChanger {
   ActionState state;
   ActionState nextState;
   Action *currentAction;
-  Direction dir;
-  Vec2 accel;
 
  public:
   ActionManager() = default;
@@ -39,7 +37,6 @@ class ActionManager<TextureRegion> : public ActionChanger {
   ActionState state;
   ActionState nextState;
   Action *currentAction;
-  Direction dir;
 
  public:
   ActionManager(FilePath path) {
@@ -48,7 +45,6 @@ class ActionManager<TextureRegion> : public ActionChanger {
         textures[static_cast<size_t>(ActionState::STAND)].size(), Direction::Right);
     this->state = ActionState::STAND;
     this->nextState = this->state;
-    this->dir = Direction::Right;
   }
 
   void changeAction(ActionState nextState) override;
