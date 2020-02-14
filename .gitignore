@@ -1,3 +1,7 @@
 .vs/
 Intermediate/
 TowerAction/App/
+TowerAction.sln
+TowerAction/TowerAction.vcxproj
+TowerAction/TowerAction.vcxproj.filters
+TowerAction/TowerAction.vcxproj.user
