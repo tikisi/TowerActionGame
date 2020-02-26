@@ -1,19 +1,25 @@
 #pragma once
 #include <Siv3D.hpp>
 
+#include "Block.h"
+
 class Physics {
  public:
-  Point size;
-  Vec2 pos;
-  Vec2 speed;
-  Vec2 accel;
-  const Vec2 e; // Vec2(–€CŒW”A‹ó‹C’ïR)
-  const Vec2 g; // d—Í
+  // Õ“Ë‚µ‚½•Ó‚ğ•\‚·
+  enum class Edge { ab, bc, cd, da, none};
+  Float2 size;
+  Float2 pos;
+  Float2 speed;
+  Float2 accel;
+  const Float2 e;  // Vec2(–€CŒW”A‹ó‹C’ïR)
+  const Float2 g;  // d—Í
 
-  Physics(Point size, Vec2 pos, Vec2 speed = Vec2(0, 0),
-          Vec2 accel = Vec2(0, 0), Vec2 e = Vec2(0.2f, 0.08f),
-          Vec2 g = Vec2(0, 0.25f))
+  Physics(Float2 size, Float2 pos, Float2 speed = Float2(0, 0),
+          Float2 accel = Float2(0, 0), Float2 e = Float2(0.2f, 0.05f),
+          Float2 g = Float2(0, 0.25f))
       : size(size), pos(pos), speed(speed), accel(accel), e(e), g(g) {}
 
   void update();
+
+  Physics::Edge collision(const BaseBlock &block);
 };

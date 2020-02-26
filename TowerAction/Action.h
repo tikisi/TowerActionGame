@@ -9,9 +9,9 @@ enum class Direction : int { Right, Left };
 /// </summary>
 enum class ActionState : size_t { STAND = 0, Walk, Dash, JUMP };
 
-class ActionChanger {
+class ActionSetter {
  public:
-  virtual void changeAction(ActionState _nextState) = 0;
+  virtual void setNextAction(ActionState _nextState) = 0;
 };
 
 /// <summary>
@@ -19,7 +19,7 @@ class ActionChanger {
 /// </summary>
 class Action {
  protected:
-  ActionChanger *changer;
+  ActionSetter *changer;
   const size_t size;
   Direction dir;
   size_t index;
@@ -27,7 +27,7 @@ class Action {
   int frameCounter;
 
  public:
-  Action(ActionChanger *changer, size_t size, Direction dir) : size(size), changer(changer), dir(dir) {
+  Action(ActionSetter *changer, size_t size, Direction dir) : size(size), changer(changer), dir(dir) {
     this->initialize();
   }
   void initialize();
@@ -42,7 +42,7 @@ class Action {
 class StandAction : public Action {
  private:
  public:
-  StandAction(ActionChanger *changer, size_t size, Direction dir) : Action(changer, size, dir) {
+  StandAction(ActionSetter *changer, size_t size, Direction dir) : Action(changer, size, dir) {
     this->accelVariation = Vec2(0, 0);
   }
 
@@ -52,7 +52,7 @@ class StandAction : public Action {
 class WalkAction : public Action {
  private:
  public:
-  WalkAction(ActionChanger *changer, size_t size, Direction dir);
+  WalkAction(ActionSetter *changer, size_t size, Direction dir);
 
   void update() override;
 };
@@ -60,7 +60,7 @@ class WalkAction : public Action {
 class JumpAction : public Action {
  private:
  public:
-  JumpAction(ActionChanger *changer, size_t size, Direction dir) : Action(changer, size, dir) {};
+  JumpAction(ActionSetter *changer, size_t size, Direction dir) : Action(changer, size, dir) {};
 
   void update() override;
 };

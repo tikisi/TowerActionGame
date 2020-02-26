@@ -7,7 +7,7 @@
 #include "Title.h"
 
 void Main() {
-  std::cout << "Game Start ! " << std::endl;
+   
   Scene::SetBackground(Color(0, 0, 0));
   // Scene::Resize(800, 600);
   Scene::Resize(1280, 720);

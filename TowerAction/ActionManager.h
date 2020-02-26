@@ -7,7 +7,7 @@
 /// アニメーション管理クラス
 /// </summary>
 template <class T>
-class ActionManager : public ActionChanger {
+class ActionManager : public ActionSetter {
  protected:
   Array<Array<T>> textures;
   ActionState state;
@@ -16,7 +16,7 @@ class ActionManager : public ActionChanger {
 
  public:
   ActionManager() = default;
-  void changeAction(ActionState nextState) override {};
+  void setNextAction(ActionState nextState) override {};
   void loadAnimation(const FilePath &path){};
   void update();
 
@@ -31,7 +31,7 @@ class ActionManager : public ActionChanger {
 /// アニメーション管理クラスのTextureRegionへの特殊化
 /// </summary>
 template <>
-class ActionManager<TextureRegion> : public ActionChanger {
+class ActionManager<TextureRegion> : public ActionSetter {
  protected:
   Array<Array<TextureRegion>> textures;
   ActionState state;
@@ -47,7 +47,8 @@ class ActionManager<TextureRegion> : public ActionChanger {
     this->nextState = this->state;
   }
 
-  void changeAction(ActionState nextState) override;
+  void setNextAction(ActionState nextState) override;
+  void changeAction(ActionState nextState);
   void loadAnimation(const FilePath &path);
   void update();
 

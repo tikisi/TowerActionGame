@@ -1,6 +1,8 @@
 #pragma once
 #include <Siv3D.hpp>
+
 #include "ActionManager.h"
+#include "Block.h"
 #include "Physics.h"
 
 /// <summary>
@@ -12,18 +14,21 @@ class Player {
   ActionManager<TextureRegion> actionManager;
   inline constexpr static float gravity = 0.2f;
 
+  void collision(BaseBlock *block);
+
   // ----ÉLÉÉÉâÇÃèÛë‘-------
 
  public:
   Player() = default;
   ~Player() = default;
 
-  Player(Vec2 position, Point textureSize = Point(64, 64),
+  Player(Point position, Point textureSize = Point(64, 64),
          FilePath path = U"../Asset/UnityChan.png")
-      : actionManager(path),
-        physics(textureSize, position) {}
+      : actionManager(path), physics(textureSize, position) {}
 
   void upate();
+
+  void collisionWithBlock(const BaseBlock &block);
 
   void draw() const;
 };

@@ -6,7 +6,7 @@
 /// アニメーションの切り替え
 /// </summary>
 /// <param name="nextState">次のキャラクターの状態</param>
-void ActionManager<TextureRegion>::changeAction(ActionState _nextState) {
+void ActionManager<TextureRegion>::setNextAction(ActionState _nextState) {
   this->nextState = _nextState;
 }
 
@@ -39,8 +39,6 @@ void ActionManager<TextureRegion>::loadAnimation(const FilePath &path) {
 
 template <class T>
 void ActionManager<T>::update() {
-  currentAction->update();
-
   if (state != nextState) {
     Direction dir = this->currentAction->getDir();
     delete currentAction;
@@ -60,8 +58,8 @@ void ActionManager<T>::update() {
             this, textures[static_cast<size_t>(state)].size(), dir);
         break;
     }
-
-    // 新しい状態のupdate呼び出し
+    this->update();
+  } else {
     currentAction->update();
   }
 }
@@ -87,31 +85,33 @@ ActionState ActionManager<T>::getState() const {
 }
 
 void ActionManager<TextureRegion>::update() {
-    currentAction->update();
+  currentAction->update();
 
-    if (state != nextState) {
-        Direction dir = this->currentAction->getDir();
-        delete currentAction;
-        this->state = nextState;
+  if (state != nextState) {
+    this->changeAction(nextState);
+    this->update();
+  } 
+}
 
-        switch (state) {
-        case ActionState::STAND:
-            currentAction = new StandAction(
-                this, textures[static_cast<size_t>(state)].size(), dir);
-            break;
-        case ActionState::Walk:
-            currentAction = new WalkAction(
-                this, textures[static_cast<size_t>(state)].size(), dir);
-            break;
-        case ActionState::JUMP:
-            currentAction = new JumpAction(
-                this, textures[static_cast<size_t>(state)].size(), dir);
-            break;
-        }
+void ActionManager<TextureRegion>::changeAction(ActionState nextState) {
+  Direction dir = this->currentAction->getDir();
+  delete currentAction;
+  this->state = nextState;
 
-        // 新しい状態のupdate呼び出し
-        currentAction->update();
-    }
+  switch (state) {
+    case ActionState::STAND:
+      currentAction = new StandAction(
+          this, textures[static_cast<size_t>(state)].size(), dir);
+      break;
+    case ActionState::Walk:
+      currentAction = new WalkAction(
+          this, textures[static_cast<size_t>(state)].size(), dir);
+      break;
+    case ActionState::JUMP:
+      currentAction = new JumpAction(
+          this, textures[static_cast<size_t>(state)].size(), dir);
+      break;
+  }
 }
 
 TextureRegion ActionManager<TextureRegion>::getTexture() const {
